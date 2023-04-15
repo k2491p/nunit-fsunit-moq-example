@@ -19,8 +19,14 @@ module GetDataWithUpperLetterTest =
         // モックのオブジェクトを取得
         let getData = getDataMock.Object
 
+        // 呼ばれない予定のモック
+        let notCallMock = new Mock<NotCall>()
+        let notCall = notCallMock.Object
+
         // テスト実行
-        getDataWithUpperLetter getData DataType.TypeA |> should equal "HELLO WORLD"
+        getDataWithUpperLetter getData DataType.TypeA notCall |> should equal "HELLO WORLD"
 
         // モックが期待通り動いたか確認
         getDataMock.VerifyAll()
+        // モックが呼ばれていないことの確認
+        notCallMock.VerifyNoOtherCalls()
